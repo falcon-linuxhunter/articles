@@ -28,11 +28,11 @@ Let's dive in! 🚀
 Before proceeding, make sure you have:
 
 - **Docker Desktop** installed (for Windows/macOS)
+- **Git Bash** (Windows Only)
+- **WSL2** (Windows Only)
 - **MCP-compatible client** (Claude Desktop, Cursor, Windsurf)
 - **Brave Search API Key** (optional for internet search)
 - **Postgres Database credentials** (optional for database integration)
-
-On Windows, also ensure WSL2 is installed.
 
 ---
 
