@@ -27,9 +27,8 @@ Let's dive in! 🚀
 
 Before proceeding, make sure you have:
 
-- **WSL2** (Windows Only)
+- **WSL2 & Ubuntu** (Windows Only)
 - **Docker Desktop** installed (for Windows/macOS)
-- **Git Bash** (Windows Only)
 - **MCP-compatible client** (Claude Desktop, Cursor, Windsurf)
 - **Brave Search API Key** (optional for internet search)
 - **Postgres Database credentials** (optional for database integration)
@@ -39,7 +38,7 @@ Before proceeding, make sure you have:
 
 ## Platform Setup
 
-### 🪟 Windows (WSL2 + Docker Desktop + Git)
+### 🪟 Windows (WSL2 + Ubuntu + Docker Desktop)
 
 From the Start menu in Windows 10/11, search for **"Turn Windows features on or off"** and select it.
 
@@ -85,28 +84,21 @@ Apply the changes, and the system will prompt you to restart!
 
    ![image info](./images/enable_wsl2_docker.png)
 
-5. Optionally, enable Ubuntu in Docker Desktop.
+5. Enable Ubuntu in Docker Desktop.
 
 
    ![image info](./images/optinal_enable.png)
+  
+6. Apply & restart Docker Desktop.
 
-6. Test Docker using PowerShell:
+7. Test Docker Desktop using Ubuntu terminal in Windows :
 
    ```bash
    docker run hello-world
    ```
    ![image info](./images/test_docker.png)
 
-7.   [Download](https://git-scm.com/downloads/win) and install Git Bash.
 
-8. Verify Git installation:
-
-   ```bash
-   git version
-   ```
-
-
-   ![image info](./images/git.png)
 ### 🍎 macOS
 
 1. [Download](https://www.docker.com/products/docker-desktop/) and install Docker Desktop for Mac.
@@ -126,29 +118,165 @@ Apply the changes, and the system will prompt you to restart!
 
 ## Setting Up MCP Servers
 
-We will configure multiple MCP tools such as Filesystem, Brave Search, PostgreSQL, and others.
+We will configure multiple MCP servers such as Filesystem, Brave Search, PostgreSQL, and others.
 
-Each tool runs as an isolated Docker container that your AI client can launch automatically.
+Each server runs as an isolated Docker container that your AI client can launch automatically.
 
 Below is a list of the MCP servers we will set up:
 
-| MCP Server          | Description                                     | Notes / Environment Variables |
-|----------------------|-------------------------------------------------|-------------------------------|
-| Git                  | Git repository access and operations           | None |
-| Time                 | Time and timezone utilities                    | None |
-| Sqlite               | SQLite database interactions                   | None |
-| Fetch                | Web content fetching and parsing               | None |
-| Sequential Thinking  | Dynamic thought sequence problem-solving       | None |
-| Puppeteer            | Browser automation and web scraping            | `DOCKER_CONTAINER=true` |
-| PostgreSQL           | PostgreSQL database access                     | Connection string needed: `postgresql://host.docker.internal:5432/mydb` |
-| Memory               | Persistent knowledge graph memory              | None |
-| Google Maps          | Location services and directions               | `GOOGLE_MAPS_API_KEY=YOUR-KEY-HERE` |
-| Filesystem           | Secure local file system operations            | Requires folder bind mount: `/Users/YOUR_FOLDER/bot-env -> /projects/bot-env` |
-| Brave Search         | Web and local search via Brave API             | `BRAVE_API_KEY=YOUR-KEY-HERE` |
+| MCP Server           | Description                                  | Notes / Environment Variables |
+|----------------------|----------------------------------------------|--------------------------------|
+| Git                  | Git repository access and operations        | None |
+| Time                 | Time and timezone utilities                 | None |
+| Sqlite               | SQLite database interactions                | None |
+| Fetch                | Web content fetching and parsing            | None |
+| Sequential Thinking  | Dynamic thought sequence problem-solving    | None |
+| Puppeteer            | Browser automation and web scraping         | `DOCKER_CONTAINER=true` |
+| PostgreSQL           | PostgreSQL database access                  | Connection string: `postgresql://host.docker.internal:5432/mydb` |
+| Memory               | Persistent knowledge graph memory           | None |
+| Google Maps          | Location services and directions            | `GOOGLE_MAPS_API_KEY=YOUR-KEY-HERE` |
+| Filesystem           | Secure local file system operations         | Folder bind mount required: `/Users/YOUR_FOLDER/bot-env -> /projects/bot-env` |
+| Brave Search         | Web and local search via Brave API           | `BRAVE_API_KEY=YOUR-KEY-HERE` |
 
 ---
 
-### 1. Filesystem Tool
+## Build MCP Server Images with Docker
+
+Follow these steps based on your operating system:
+
+### 🐧 Windows (WSL2 Ubuntu) and 🖥️ macOS Users
+
+1. **Clone the Repository**  
+   Clone the MCP servers repository to your local machine:
+   ```bash
+   git clone https://github.com/modelcontextprotocol/servers.git
+   ```
+
+2. **Navigate to the Repository Directory**: Change directory to the cloned repository:
+
+    ```bash
+    cd servers
+    ```
+
+3. **Create a new file**: Create a **build_all.sh** file in the root directory of the project and paste the following content:
+
+    ```bash
+    #!/bin/bash
+    set -euo pipefail
+
+    # Determine the directory of this script so that relative paths are correct
+    SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+    DOCKER_SRC_DIR="$SCRIPT_DIR/src"
+
+    # Loop over each subdirectory inside the src folder
+    for folder in "$DOCKER_SRC_DIR"/*; do
+        if [ -d "$folder" ]; then
+            dockerfile="$folder/Dockerfile"
+            folder_name=$(basename "$folder")
+            if [ -f "$dockerfile" ]; then
+                # If Dockerfile references uv.lock, ensure the file exists in the project folder
+                if grep -q "uv\.lock" "$dockerfile"; then
+                    if [ ! -f "$folder/uv.lock" ]; then
+                        echo "Skipping '$folder_name': Dockerfile references uv.lock but file not found in $folder"
+                        continue
+                    fi
+                fi
+
+                # Determine build context:
+                # If the Dockerfile contains "COPY src/<folder_name>", it expects to be run from the repository root.
+                if grep -E -q "COPY[[:space:]]+src/${folder_name}\b" "$dockerfile"; then
+                    context="$SCRIPT_DIR"
+                    echo "Building Docker image for '$folder_name' using $dockerfile with repository root as context"
+                else
+                    context="$folder"
+                    echo "Building Docker image for '$folder_name' using $dockerfile with project folder as context"
+                fi
+
+                docker build -t "$folder_name" -f "$dockerfile" "$context"
+            else
+                echo "Skipping '$folder_name': Dockerfile not found"
+            fi
+        fi
+    done
+
+    ```
+
+4. **Make Script Executable**: Make shell script executable:
+
+    ```bash
+    chmod +x build_all.sh
+    ``` 
+5. **Run the Script with `sudo`**  
+   The `build_all.sh` script needs to be run with root access (`sudo`) because it builds Docker images, which require elevated permissions.  
+   Ensure your user account has the necessary privileges.
+
+   When you run the script, it will:
+   - Automatically detect each MCP server directory under the `src/` folder.
+   - Check if a valid `Dockerfile` exists for that server.
+   - Verify if any additional dependencies (like `uv.lock`) are required.
+   - Select the correct Docker build context (either the project root or the individual service folder).
+   - Build a Docker image for each MCP server and tag it with the server name (e.g., `git`, `fetch`, `filesystem`, `brave-search`, etc.).
+
+   > ⚡ **Note:** This process will sequentially build multiple images. The time it takes depends on your machine's resources and internet speed (for downloading base images).
+
+   To run the script:
+
+   ```bash
+   sudo ./build_all.sh
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 1. Filesystem Tool
 
 Allows your AI to securely read/write local files.
 
