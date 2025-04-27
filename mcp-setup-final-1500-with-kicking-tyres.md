@@ -27,9 +27,9 @@ Let's dive in! 🚀
 
 Before proceeding, make sure you have:
 
+- **WSL2** (Windows Only)
 - **Docker Desktop** installed (for Windows/macOS)
 - **Git Bash** (Windows Only)
-- **WSL2** (Windows Only)
 - **MCP-compatible client** (Claude Desktop, Cursor, Windsurf)
 - **Brave Search API Key** (optional for internet search)
 - **Postgres Database credentials** (optional for database integration)
@@ -39,7 +39,7 @@ Before proceeding, make sure you have:
 
 ## Platform Setup
 
-### 🪟 Windows (WSL2 + Docker Desktop)
+### 🪟 Windows (WSL2 + Docker Desktop + Git)
 
 From the Start menu in Windows 10/11, search for **"Turn Windows features on or off"** and select it.
 
@@ -79,32 +79,49 @@ Apply the changes, and the system will prompt you to restart!
 
 2. [Download](https://www.docker.com/products/docker-desktop/) and install Docker Desktop for Windows.
 
-3. Enable WSL2 integration for Docker Desktop. 
+3. Start Docker Desktop from the Start Menu.
+
+4. Enable WSL2 integration for Docker Desktop. 
 
    ![image info](./images/enable_wsl2_docker.png)
 
-4. Optionally, enable Ubuntu in Docker Desktop.
+5. Optionally, enable Ubuntu in Docker Desktop.
 
 
    ![image info](./images/optinal_enable.png)
 
-5. Test Docker using PowerShell:
+6. Test Docker using PowerShell:
 
    ```bash
    docker run hello-world
    ```
    ![image info](./images/test_docker.png)
 
+7.   [Download](https://git-scm.com/downloads/win) and install Git Bash.
+
+8. Verify Git installation:
+
+
+   ```bash
+   git version
+   ```
+
+
+   ![image info](./images/git.png)
 
 
 ### 🍎 macOS
 
-1. Download and install Docker Desktop for Mac.
-2. Verify Docker installation:
+1. [Download](https://www.docker.com/products/docker-desktop/) and install Docker Desktop for Mac.
+
+2. Start Docker Desktop from the Applications menu.
+
+3. Verify Docker installation using the terminal:
+
    ```bash
    docker run hello-world
    ```
-3. Plan directories like `~/Projects` or `~/Desktop/MyCode` for safe mounting.
+
 
 > **Linux Note**: Follow the macOS instructions if you're setting up on Linux.
 
