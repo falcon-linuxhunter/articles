@@ -225,6 +225,14 @@ Follow these steps based on your operating system:
    sudo ./build_all.sh
    ```
 
+   While the script is running, if you encounter an error like:
+
+   ```bash
+   ERROR [internal] load metadata for ghcr.io/astral-sh/uv:python3.12-bookworm-slim
+   ```
+    it usually means there was a temporary network or connectivity issue while pulling base images.
+
+      ✅ Solution: Simply switch to a different internet connection (e.g., a mobile hotspot, another Wi-Fi network) and rerun the script
 
 
 
