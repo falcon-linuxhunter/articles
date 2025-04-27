@@ -207,6 +207,7 @@ Follow these steps based on your operating system:
     chmod +x build_all.sh
     ``` 
 5. **Run the Script with `sudo`**  
+
    The `build_all.sh` script needs to be run with root access (`sudo`) because it builds Docker images, which require elevated permissions.  
    Ensure your user account has the necessary privileges.
 
@@ -220,10 +221,9 @@ Follow these steps based on your operating system:
    > ⚡ **Note:** This process will sequentially build multiple images. The time it takes depends on your machine's resources and internet speed (for downloading base images).
 
    To run the script:
-
    ```bash
    sudo ./build_all.sh
-
+  ```
 
 
 
