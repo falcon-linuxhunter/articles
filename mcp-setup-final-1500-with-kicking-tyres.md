@@ -223,7 +223,7 @@ Follow these steps based on your operating system:
    To run the script:
    ```bash
    sudo ./build_all.sh
-  ```
+   ```
 
 
 
