@@ -101,15 +101,12 @@ Apply the changes, and the system will prompt you to restart!
 
 8. Verify Git installation:
 
-
    ```bash
    git version
    ```
 
 
    ![image info](./images/git.png)
-
-
 ### 🍎 macOS
 
 1. [Download](https://www.docker.com/products/docker-desktop/) and install Docker Desktop for Mac.
@@ -127,11 +124,29 @@ Apply the changes, and the system will prompt you to restart!
 
 ---
 
-## Setting Up MCP Tools
+## Setting Up MCP Servers
 
-We will configure three core MCP tools: Filesystem, Brave Search, and PostgreSQL.
+We will configure multiple MCP tools such as Filesystem, Brave Search, PostgreSQL, and others.
 
 Each tool runs as an isolated Docker container that your AI client can launch automatically.
+
+Below is a list of the MCP servers we will set up:
+
+| MCP Server          | Description                                     | Notes / Environment Variables |
+|----------------------|-------------------------------------------------|-------------------------------|
+| Git                  | Git repository access and operations           | None |
+| Time                 | Time and timezone utilities                    | None |
+| Sqlite               | SQLite database interactions                   | None |
+| Fetch                | Web content fetching and parsing               | None |
+| Sequential Thinking  | Dynamic thought sequence problem-solving       | None |
+| Puppeteer            | Browser automation and web scraping            | `DOCKER_CONTAINER=true` |
+| PostgreSQL           | PostgreSQL database access                     | Connection string needed: `postgresql://host.docker.internal:5432/mydb` |
+| Memory               | Persistent knowledge graph memory              | None |
+| Google Maps          | Location services and directions               | `GOOGLE_MAPS_API_KEY=YOUR-KEY-HERE` |
+| Filesystem           | Secure local file system operations            | Requires folder bind mount: `/Users/YOUR_FOLDER/bot-env -> /projects/bot-env` |
+| Brave Search         | Web and local search via Brave API             | `BRAVE_API_KEY=YOUR-KEY-HERE` |
+
+---
 
 ### 1. Filesystem Tool
 
