@@ -209,7 +209,8 @@ Follow these steps based on your operating system:
 
     ```
 
-4. **Make Script Executable**: Make shell script executable:
+4. **Make the Script Executable**  
+   Grant execute permissions to the shell script:
 
     ```bash
     chmod +x build_all.sh
@@ -246,7 +247,7 @@ Follow these steps based on your operating system:
    Once the script finishes, you can verify that the Model Context Protocol (MCP) server Docker images were built successfully by running:
 
     ```bash
-    sudo docker images
+    docker images
     ```
       ![image info](./images/docker_images.png)
 
@@ -397,7 +398,8 @@ Restart the client after saving.
 
 ---
 
-## Kicking the Tyres: Testing Your Setup 🛞
+## Kicking the Tires: Testing Your Setup 🛞
+
 
 Now it's time to **kick the tyres** and make sure everything is running smoothly!
 
