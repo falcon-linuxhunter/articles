@@ -324,7 +324,7 @@ Follow these steps:
           "google-maps"
         ],
         "env": {
-          "GOOGLE_MAPS_API_KEY": "YOUR-KEy-HERE"
+          "GOOGLE_MAPS_API_KEY": "YOUR-KEY-HERE"
         }
       },
       "filesystem": {
