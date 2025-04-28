@@ -351,6 +351,43 @@ Follow these steps:
    }
     ```
 
+3. **Important: Update Placeholder Values**
+
+    Before saving the configuration, **you must update the following fields**:
+
+- **API Keys**
+  - Replace `YOUR-KEY-HERE` with your actual keys:
+    - `BRAVE_API_KEY` → For Brave Search 
+    - `GOOGLE_MAPS_API_KEY` → For Google Maps
+
+- **Filesystem Mount Path**
+  - Update the path `/Users/zaheerahmad/bot-env` to the actual local folder you want the AI to access.
+
+- **PostgreSQL Database URL**
+  - Update the connection string:
+    - `postgresql://host.docker.internal:5432/mydb`
+    - Replace `mydb` with your real database name and credentials.
+
+> ⚡ **Note:** If you don't update these placeholders correctly, the corresponding MCP server will fail when called by Claude.
+
+
+**4. Fully Quit and Restart Claude**
+
+After saving your configuration changes, you must **completely exit** and then restart the Claude client to apply the new MCP server settings.
+
+- **On Windows**:
+  - Right-click the Claude tray icon (bottom right near the clock) and select **Exit**.
+  - Or open **Task Manager**, find **Claude**, and click **End Task**.
+
+- **On macOS**:
+  - Click the Claude menu bar icon at the top of the screen and select **Quit Claude**.
+  - Alternatively, right-click the app icon in the Dock and select **Quit**.
+
+> ⚡ **Important:** Simply closing the Claude window will not reload the updated MCP configuration. You must fully quit the application.
+
+Once you have fully quit and restarted Claude, it will load the updated `mcpServers` settings and be ready to interact with your locally running MCP servers.
+
+
 
 
 
