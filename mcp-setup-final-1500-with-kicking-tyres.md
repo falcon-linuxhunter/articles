@@ -18,7 +18,7 @@ This guide walks you through installing and configuring essential MCP Servers us
 - [Setting Up MCP Servers](#setting-up-mcp-servers)
 - [Build MCP Server Images with Docker](#build-mcp-server-images-with-docker)
 - [Setting Up Claude to Use MCP Servers](#setting-up-claude-to-use-mcp-servers)
-- [Kicking the Tires: Testing Your Setup](#kicking-the-tires-testing-your-setup)
+- [Kicking the Tyres: Testing Your Setup](#kicking-the-tyres-testing-your-setup)
 - [Common Troubleshooting](#common-troubleshooting)
 - [Security Best Practices](#security-best-practices-)
 - [Conclusion and What's Next?](#conclusion-and-whats-next-)
