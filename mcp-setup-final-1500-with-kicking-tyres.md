@@ -171,8 +171,15 @@ Follow these steps based on your operating system:
     # Loop over each subdirectory inside the src folder
     for folder in "$DOCKER_SRC_DIR"/*; do
         if [ -d "$folder" ]; then
-            dockerfile="$folder/Dockerfile"
             folder_name=$(basename "$folder")
+            
+            # Skip 'redis' folder
+            if [ "$folder_name" == "redis" ]; then
+                echo "Skipping '$folder_name': Redis does not require build"
+                continue
+            fi
+
+            dockerfile="$folder/Dockerfile"
             if [ -f "$dockerfile" ]; then
                 # If Dockerfile references uv.lock, ensure the file exists in the project folder
                 if grep -q "uv\.lock" "$dockerfile"; then
@@ -198,6 +205,7 @@ Follow these steps based on your operating system:
             fi
         fi
     done
+
 
     ```
 
@@ -232,16 +240,8 @@ Follow these steps based on your operating system:
    ```
     it usually means there was a temporary network or connectivity issue while pulling base images.
 
-      ✅ Solution: Simply switch to a different internet connection (e.g., a mobile hotspot, another Wi-Fi network) and rerun the script. You need to run script multiple times because it builds all the images one by one.
+      ✅ Solution: Simply switch to a different internet connection (e.g., a mobile hotspot, another Wi-Fi network) and rerun the script. You may need to run the script multiple times, as it builds all images sequentially. Since this project is open-source and the remote repositories are updated frequently, changes can occasionally break the build process. For advanced use cases, you might need to adjust the script to handle specific services. For example, the Redis MCP server's Dockerfile is currently broken, so we have modified the script to skip building it.
     
- 
-
-
-
-
-
-
-
 
 
 
