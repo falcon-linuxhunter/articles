@@ -391,137 +391,11 @@ After saving your configuration changes, you must **completely exit** and then r
 
 Once you have fully quit and restarted Claude, it will load the updated `mcpServers` settings and be ready to interact with your locally running MCP servers.
 
+**5. Verify Claude Integration**
 
+After restarting Claude, you should see the configured MCP tools listed and ready for use:
+![image info](./images/claude_tools.png)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## 1. Filesystem Tool
-
-Allows your AI to securely read/write local files.
-
-Docker Pull:
-```bash
-docker pull mcp/filesystem
-```
-
-Example Configuration:
-```json
-"filesystem": {
-  "command": "docker",
-  "args": [
-    "run", "-i", "--rm",
-    "--mount", "type=bind,src=/path/to/desktop,dst=/projects/Desktop",
-    "mcp/filesystem",
-    "/projects"
-  ]
-}
-```
-
-> Replace `/path/to/desktop` with your actual local path.
-
----
-
-### 2. Brave Search Tool
-
-Enables live web searches.
-
-Docker Pull:
-```bash
-docker pull mcp/brave-search
-```
-
-Example Configuration:
-```json
-"brave-search": {
-  "command": "docker",
-  "args": [
-    "run", "-i", "--rm",
-    "-e", "BRAVE_API_KEY",
-    "mcp/brave-search"
-  ],
-  "env": {
-    "BRAVE_API_KEY": "YOUR_API_KEY_HERE"
-  }
-}
-```
-
----
-
-### 3. PostgreSQL Tool
-
-Securely query local or remote databases.
-
-Docker Pull:
-```bash
-docker pull mcp/postgres
-```
-
-Example Configuration:
-```json
-"postgres-db": {
-  "command": "docker",
-  "args": [
-    "run", "-i", "--rm",
-    "-e", "DATABASE_URL",
-    "mcp/postgres"
-  ],
-  "env": {
-    "DATABASE_URL": "postgresql://user:pass@host.docker.internal:5432/dbname"
-  }
-}
-```
-
-Use `host.docker.internal` on Windows/macOS for DB networking.
-
----
-
-## Combined Sample `mcpServers.json`
-
-```json
-{
-  "mcpServers": {
-    "filesystem": { ... },
-    "brave-search": { ... },
-    "postgres-db": { ... }
-  }
-}
-```
-
-Save it according to your client:
-
-| Client         | Location |
-|----------------|----------|
-| Claude Desktop (Windows) | `%APPDATA%/Claude/claude_desktop_config.json` |
-| Claude Desktop (macOS) | `~/Library/Application Support/Claude/claude_desktop_config.json` |
-| Cursor | `.cursor/mcp.json` per project |
-
-Restart the client after saving.
-
----
 
 ## Kicking the Tires: Testing Your Setup 🛞
 
@@ -530,21 +404,27 @@ Now it's time to **kick the tyres** and make sure everything is running smoothly
 
 ### Test the Filesystem Server
 Ask your AI:
-> "List the files inside the Desktop folder."
+> "List the files inside the bot-env folder."
+
+![image info](./images/filesystem.png)
 
 If configured correctly, your assistant should list real files.
 
 ### Test Brave Search
 Prompt:
-> "Search the web for the latest Python 3.12 updates."
+> "Search the web for the latest Bitcoin updates using bravesearch."
 
 It should return search results from Brave.
 
-### Test PostgreSQL Access
+![image info](./images/brave_search.png)
+
+### Test Sqlite Access
 Ask:
-> "List the tables in the `mydatabase` Postgres database."
+> "Create new database for my awsome project using Sqlite MCP tool"
 
 You should receive a proper table listing.
+
+![image info](./images/sqlite.png)
 
 If something doesn't work — don't worry, kicking the tyres helps you find and fix early!
 
