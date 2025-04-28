@@ -397,7 +397,7 @@ After restarting Claude, you should see the configured MCP tools listed and read
 ![image info](./images/claude_tools.png)
 
 
-## Kicking the Tires: Testing Your Setup 🛞
+## Kicking the Tyres: Testing Your Setup 🛞
 
 
 Now it's time to **kick the tyres** and make sure everything is running smoothly!
@@ -420,7 +420,7 @@ It should return search results from Brave.
 
 ### Test Sqlite Access
 Ask:
-> "Create new database for my awsome project using Sqlite MCP tool"
+> "Create new database for my awesome project using Sqlite MCP tool"
 
 You should receive a proper table listing.
 
