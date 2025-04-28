@@ -251,21 +251,105 @@ Follow these steps based on your operating system:
     ```
       ![image info](./images/docker_images.png)
 
-    
+---
 
+## Setting Up Claude to Use MCP Servers
 
+Now that your MCP servers are built and ready, the next step is to configure your Claude client (such as Claude Desktop) to connect to these local servers.
 
+Claude uses a configuration file to know how to interact with different MCP servers.
 
+Follow these steps:
 
+1. **Locate the Claude Configuration File**
 
+   Depending on your operating system:
 
+   | Operating System | Location |
+   |------------------|----------|
+   | Windows | `%APPDATA%/Claude/claude_desktop_config.json` |
+   | macOS   | `~/Library/Application Support/Claude/claude_desktop_config.json` |
 
+2. **Edit/Create the Configuration File**
 
+   Open the configuration file with any text editor and locate the `mcpServers` section.
 
+   If it doesn't exist, you can add it.
 
+   Example configuration:
 
-
-
+   ```json
+   {
+    "mcpServers": {
+      "git": {
+        "command": "docker",
+        "args": ["run", "-i", "--rm", "git"]
+      },
+      "time": {
+        "command": "docker",
+        "args": ["run", "-i", "--rm", "time"]
+      },
+      "sqlite": {
+        "command": "docker",
+        "args": ["run", "-i", "--rm", "sqlite"]
+      },
+      "fetch": {
+        "command": "docker",
+        "args": ["run", "-i", "--rm", "fetch"]
+      },
+      "sequentialthinking": {
+        "command": "docker",
+        "args": ["run", "-i", "--rm", "sequentialthinking"]
+      },
+      "puppeteer": {
+        "command": "docker",
+        "args": ["run", "-i", "--rm", "--init", "-e", "DOCKER_CONTAINER=true", "puppeteer"]
+      },
+      "postgres": {
+        "command": "docker",
+        "args": ["run", "-i", "--rm", "postgres",
+        "postgresql://host.docker.internal:5432/mydb"
+      ]
+      },
+      "memory": {
+        "command": "docker",
+        "args": ["run", "-i", "--rm", "memory"]
+      },
+      "google-maps": {
+        "command": "docker",
+        "args": [
+          "run", "-i", "--rm",
+          "-e",
+          "GOOGLE_MAPS_API_KEY",
+          "google-maps"
+        ],
+        "env": {
+          "GOOGLE_MAPS_API_KEY": "YOUR-KEy-HERE"
+        }
+      },
+      "filesystem": {
+        "command": "docker",
+        "args": ["run", "-i", "--rm", 
+        "--mount", "type=bind,src=/Users/zaheerahmad/bot-env,dst=/projects/bot-env",
+        "filesystem",
+        "/projects"
+      ]
+      },
+      "brave-search": {
+        "command": "docker",
+        "args": [
+          "run", "-i", "--rm", 
+          "-e",
+          "BRAVE_API_KEY",
+          "brave-search"
+        ],
+        "env": {
+          "BRAVE_API_KEY": "YOUR-KEY-HERE"
+          }
+      }
+    }
+   }
+    ```
 
 
 
