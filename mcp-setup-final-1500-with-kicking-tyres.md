@@ -241,6 +241,15 @@ Follow these steps based on your operating system:
     it usually means there was a temporary network or connectivity issue while pulling base images.
 
       ✅ Solution: Simply switch to a different internet connection (e.g., a mobile hotspot, another Wi-Fi network) and rerun the script. You may need to run the script multiple times, as it builds all images sequentially. Since this project is open-source and the remote repositories are updated frequently, changes can occasionally break the build process. For advanced use cases, you might need to adjust the script to handle specific services. For example, the Redis MCP server's Dockerfile is currently broken, so we have modified the script to skip building it.
+
+6. **Verify MCP Server Docker Images**  
+   Once the script finishes, you can verify that the Model Context Protocol (MCP) server Docker images were built successfully by running:
+
+    ```bash
+    sudo docker images
+    ```
+      ![image info](./images/docker_images.png)
+
     
 
 
