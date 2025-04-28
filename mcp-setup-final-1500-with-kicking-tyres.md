@@ -330,7 +330,7 @@ Follow these steps:
       "filesystem": {
         "command": "docker",
         "args": ["run", "-i", "--rm", 
-        "--mount", "type=bind,src=/Users/zaheerahmad/bot-env,dst=/projects/bot-env",
+        "--mount", "type=bind,src=/path/to/your/local/folder,dst=/projects/bot-env",
         "filesystem",
         "/projects"
       ]
@@ -361,7 +361,11 @@ Follow these steps:
     - `GOOGLE_MAPS_API_KEY` → For Google Maps
 
 - **Filesystem Mount Path**
-  - Update the path `/Users/zaheerahmad/bot-env` to the actual local folder you want the AI to access.
+  - Update the path `/path/to/your/local/folder` to the actual folder on your machine that you want the AI to access.
+  - Example paths:
+    - On **Windows**: `C:/Users/YourUsername/Documents/ai-folder`
+    - On **macOS/Linux**: `/Users/yourusername/Documents/ai-folder`
+
 
 - **PostgreSQL Database URL**
   - Update the connection string:
